@@ -1,0 +1,38 @@
+# Local credentials and Webflow CLI/app config
+.env
+.env.*
+!.env.example
+webflow.json
+
+# Downloaded Webflow exports and generated organization views
+exports/
+exports-organized/
+
+# Runtime logs, screenshots, inventories, and resume state
+logs/
+webflow-sites-inventory.json
+webflow-sites-inventory.csv
+
+# Browser profiles contain cookies, local storage, sessions, history, and tokens.
+.webflow-browser-profile/
+.chromium-webflow-profile/
+.chromium-worker-*/
+
+# Dependencies and package-manager cache
+node_modules/
+.npm/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Playwright/debug artifacts
+playwright-report/
+test-results/
+traces/
+*.har
+*.trace.zip

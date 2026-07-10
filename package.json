@@ -1,0 +1,52 @@
+{
+  "name": "webflow-bulk-code-exporter",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "description": "Bulk Webflow code export downloader that automates official Designer ZIP exports with Playwright, resume logs, retries, and safe pacing.",
+  "license": "MIT",
+  "keywords": [
+    "webflow",
+    "webflow-export",
+    "webflow-code-export",
+    "webflow-code-exporter",
+    "webflow-bulk-export",
+    "webflow-downloader",
+    "webflow-zip-download",
+    "webflow-backup",
+    "webflow-designer",
+    "playwright",
+    "automation",
+    "site-backup",
+    "code-export",
+    "zip-export",
+    "bulk-download"
+  ],
+  "scripts": {
+    "inventory": "node scripts/inventory.mjs",
+    "export:login": "node scripts/export-webflow-zips.mjs --login",
+    "export:login:browser": "node scripts/export-webflow-zips.mjs --login",
+    "browser:debug": "open -na \"${WEBFLOW_BROWSER_APP:-Google Chrome}\" --args --remote-debugging-port=9222 --user-data-dir=\"$PWD/.chromium-webflow-profile\"",
+    "browser:debug:workers": "open -na \"${WEBFLOW_BROWSER_APP:-Google Chrome}\" --args --remote-debugging-port=9222 --user-data-dir=\"$PWD/.chromium-worker-1\" && open -na \"${WEBFLOW_BROWSER_APP:-Google Chrome}\" --args --remote-debugging-port=9223 --user-data-dir=\"$PWD/.chromium-worker-2\" && open -na \"${WEBFLOW_BROWSER_APP:-Google Chrome}\" --args --remote-debugging-port=9224 --user-data-dir=\"$PWD/.chromium-worker-3\"",
+    "export:status": "node scripts/export-status.mjs",
+    "export:snapshots": "node scripts/update-export-snapshots.mjs",
+    "export:supervisor": "bash scripts/export-supervisor.sh",
+    "export:retry-candidates": "node scripts/write-retry-candidates.mjs",
+    "exports:organize": "node scripts/organize-exports.mjs",
+    "prepublish-check": "node scripts/prepublish-check.mjs",
+    "export:shards": "node scripts/write-export-shards.mjs --workers 3",
+    "export:zips:worker1": "WEBFLOW_CDP_URL='http://127.0.0.1:9222' node scripts/export-webflow-zips.mjs --site-ids-file logs/shards/worker-1.siteids.txt --min-delay-ms 20000 --max-delay-ms 40000 --timeout-ms 300000 --retries 2",
+    "export:zips:worker2": "WEBFLOW_CDP_URL='http://127.0.0.1:9223' node scripts/export-webflow-zips.mjs --site-ids-file logs/shards/worker-2.siteids.txt --min-delay-ms 20000 --max-delay-ms 40000 --timeout-ms 300000 --retries 2",
+    "export:zips:worker3": "WEBFLOW_CDP_URL='http://127.0.0.1:9224' node scripts/export-webflow-zips.mjs --site-ids-file logs/shards/worker-3.siteids.txt --min-delay-ms 20000 --max-delay-ms 40000 --timeout-ms 300000 --retries 2",
+    "export:zips:tabs": "WEBFLOW_CDP_URL='http://127.0.0.1:9222' node scripts/export-webflow-tabs.mjs --workers ${WEBFLOW_TAB_WORKERS:-3} --min-delay-ms ${WEBFLOW_MIN_DELAY_MS:-20000} --max-delay-ms ${WEBFLOW_MAX_DELAY_MS:-40000} --timeout-ms ${WEBFLOW_EXPORT_TIMEOUT_MS:-300000} --retries ${WEBFLOW_EXPORT_RETRIES:-2}",
+    "export:zips:tabs3": "WEBFLOW_TAB_WORKERS=3 npm run export:zips:tabs",
+    "export:zips": "node scripts/export-webflow-zips.mjs",
+    "export:zips:browser": "node scripts/export-webflow-zips.mjs",
+    "export:zips:browser-cdp": "WEBFLOW_CDP_URL='http://127.0.0.1:9222' node scripts/export-webflow-zips.mjs",
+    "export:zips:dry-run": "node scripts/export-webflow-zips.mjs --dry-run"
+  },
+  "dependencies": {
+    "playwright": "^1.54.1"
+  },
+  "devDependencies": {}
+}
